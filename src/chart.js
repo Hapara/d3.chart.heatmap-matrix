@@ -8,8 +8,8 @@ var d3ChartBase = require('d3.chart.base');
 
 var makeProp = util.makeProp;
 
-var CHART_NAME = 'BubbleMatrix';
-var CHART_ID = 'd3-chart-bubble-matrix';
+var CHART_NAME = 'Heatmap';
+var CHART_ID = 'd3-chart-heatmap';
 var HZ_PADDING = 1.0;
 var VT_PADDING = 1.0;
 var RADIUS_PADDING = 0.1;
@@ -21,8 +21,8 @@ function defaultColorScale() {
 }
 
 var layerMods = {
+    'grid': require('./layer/grid.js'),
     'thread': require('./layer/thread.js'),
-    'bubble': require('./layer/bubble.js'),
     'row-header': require('./layer/row-header.js'),
     'col-header': require('./layer/col-header.js')
 };
@@ -35,7 +35,7 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.yScale = d3.scale.ordinal();
         this.radiusScale = d3.scale.sqrt();
         this.leftMargin = 0;
-        var layers = ['thread', 'bubble', 'row-header', 'col-header'];
+        var layers = ['grid',  'row-header', 'col-header'];
         for (var i = 0; i < layers.length; ++i) {
             var layer = layers[i];
             var gr = this.base.append('g').classed(layer, true);
@@ -49,8 +49,7 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.rowData(function (d) { return d.values; });
         this.columns(function (d) { return d.columns; });
         this.colHeader(function (d) { return d; });
-        this.size(function (d) { return d[0]; });
-        this.color(function (d) { return d[1]; });
+        this.color(function (d) { return d; });
         this.colorScale(defaultColorScale());
         this.slanted(false);
         this.duration(250);
@@ -61,14 +60,15 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         var rows = this._rows(data);
         var cols = this._columns(data);
         var left = this._updateLeftMargin(rows, this.width());
+        console.log(this.topMargin)
         var bottom = this._getMaxBottom(cols, this.height());
         var xDelta = (this.width() - left) / cols.length;
         var yDelta = (bottom - 0) / rows.length;
         this.xScale.domain(d3.range(0, cols.length));
         this.yScale.domain(d3.range(0, rows.length));
         var delta = Math.min(xDelta, yDelta);
-        var right = left + delta * cols.length;
-        bottom = delta * rows.length;
+        var right = left + xDelta * cols.length;
+        bottom = yDelta * rows.length;
         this.xScale.rangePoints([left, right], HZ_PADDING);
         this.yScale.rangePoints([0, bottom], VT_PADDING);
         var padding = this._ruler.extentOfChar('W').height;
@@ -106,11 +106,13 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
     columns: makeProp('_columns'),
     colHeader: makeProp('_colHeader'),
     colKey: makeProp('_colKey'),
-    size: makeProp('_size'),
+    //size: makeProp('_size'),
     color: makeProp('_color'),
+    /*
     sizeDomain: makeProp('_sizeDomain', function (it) {
         return this._radiusScale.domain(it);
     }),
+    */
     colorScale: makeProp('_colorScale'),
     slanted: makeProp('_slanted'),
     duration: makeProp('_duration')

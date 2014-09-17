@@ -19,7 +19,7 @@ function transformCol(sel, chart) {
         var result;
         result = 'translate(' + (chart.xScale(i)) + ',' + bottom + ')';
         if (slanted) {
-            result += 'rotate(45)';
+            result += 'rotate(-45)';
         }
         return result;
     });

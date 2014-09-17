@@ -1,5 +1,5 @@
-module.exports = {
-    columns: ['the', 'cake', 'is', 'a', 'lie'],
+var data2 = {
+    columns: ['the', 'cake', 'is', 'a', 'L3_1e_complex_sentences'], 
     rows: [
         {name: 'foo', values: [[0.13, 0.69], [0.84, 0.49], [0.31, 0.97],
                                [0.75, 0.29], [0.64, 0.9]]},
@@ -8,6 +8,20 @@ module.exports = {
         {name: 'baz', values: [[0.94, 0.1], [0.39, 0.63], [0.07, 0.27],
                                [0.98, 0.02], [0.25, 0.94]]},
         {name: 'glo', values: [[0.3, 0.14], [0.39, 0.4], [0.54, 0.23],
-                               [0.35, 0.47], [0.71, 0.71]]}
+                               [0.35, 0.47], [0.71, 0.71]]},
     ]
 };
+
+var data= {
+    columns: ['the', 'cake', 'is', 'a', 'lie'],
+    rows: [
+        {name: 'foo', values: [0.05, 0.10, 0.15, 0.20, 0.25, ]},
+        {name: 'bar', values: [0.30, 0.35, 0.40, 0.45, 0.50, ]},
+        {name: 'baz', values: [0.55, 0.60, 0.65, 0.70, 0.75, ]},
+        {name: 'glo', values: [0.80, 0.85, 0.90, 0.95, 1.00, ]},
+    ]
+};
+
+
+
+module.exports = data;
