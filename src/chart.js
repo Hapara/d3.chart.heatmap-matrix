@@ -6,6 +6,7 @@ var d3 = require('d3');
 var d3Chart = require('d3.chart');
 var d3ChartBase = require('d3.chart.base');
 
+
 var makeProp = util.makeProp;
 
 var CHART_NAME = 'Heatmap';
@@ -21,7 +22,7 @@ function defaultColorScale() {
 }
 
 var layerMods = {
-    'grid': require('./layer/grid.js'),
+    'cells': require('./layer/cells.js'),
     'thread': require('./layer/thread.js'),
     'row-header': require('./layer/row-header.js'),
     'col-header': require('./layer/col-header.js')
@@ -35,7 +36,7 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.yScale = d3.scale.ordinal();
         this.radiusScale = d3.scale.sqrt();
         this.leftMargin = 0;
-        var layers = ['grid',  'row-header', 'col-header'];
+        var layers = ['cells',  'row-header', 'col-header'];
         for (var i = 0; i < layers.length; ++i) {
             var layer = layers[i];
             var gr = this.base.append('g').classed(layer, true);
@@ -51,16 +52,23 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.colHeader(function (d) { return d; });
         this.color(function (d) { return d; });
         this.colorScale(defaultColorScale());
+        this.label(function (d) { return d; });
+        this.tip(function (d) {
+            return {
+                show: function() { },
+                hide: function() { }
+            }
+        }),
         this.slanted(false);
         this.duration(250);
     },
 
     transform: function (data) {
+        console.log(data)
         this._ruler = util.textRuler(this.base);
         var rows = this._rows(data);
         var cols = this._columns(data);
         var left = this._updateLeftMargin(rows, this.width());
-        console.log(this.topMargin)
         var bottom = this._getMaxBottom(cols, this.height());
         var xDelta = (this.width() - left) / cols.length;
         var yDelta = (bottom - 0) / rows.length;
@@ -108,6 +116,8 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
     colKey: makeProp('_colKey'),
     //size: makeProp('_size'),
     color: makeProp('_color'),
+    label: makeProp('_label'),
+    tip: makeProp('_tip'),
     /*
     sizeDomain: makeProp('_sizeDomain', function (it) {
         return this._radiusScale.domain(it);
@@ -115,7 +125,8 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
     */
     colorScale: makeProp('_colorScale'),
     slanted: makeProp('_slanted'),
-    duration: makeProp('_duration')
+    duration: makeProp('_duration'),
+    selectedColumn: makeProp('_selectedColumn')
 });
 
 module.exports = Chart;

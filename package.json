@@ -1,22 +1,21 @@
 {
   "name": "d3.chart.heatmap",
-  "description": "A bubble-matrix chart for the Web",
+  "description": "A heatmap-matrix chart for the Web",
   "version": "1.0.0-alpha",
-  "author": "Benbria",
+  "author": "Lee Becker",
   "license": {
     "type": "MIT Expat",
     "url": "https://raw.github.com/benbria/d3.chart.bubble-matrix/master/LICENSE"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/benbria/d3.chart.bubble-matrix.git"
+    "url": "git://github.com/leebecker-hapara/d3.chart.heatmap.git"
   },
   "keywords": [
     "d3.js",
     "visualization",
     "svg",
-    "bubble",
-    "bubbles",
+    "heatmap",
     "matrix"
   ],
   "files": [
@@ -68,7 +67,8 @@
   "browser": {
     "d3.chart": "./vendor/d3.chart.js",
     "d3.chart.base": "./vendor/d3.chart.base.js",
-    "d3.chart.heatmap": "./src/chart.js"
+    "d3.chart.heatmap": "./src/chart.js",
+    "d3.tip": "./vendor/d3-tip.min.js"
   },
   "browserify-shim": {
     "d3.chart": {

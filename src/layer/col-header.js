@@ -31,7 +31,12 @@ layer.events['enter'] = function () {
 
 layer.events['merge'] = function () {
     var chart = this.chart();
-    this.text(chart.colHeader());
+    this.text(chart.colHeader())
+    this.on('click', function(d, i) { 
+        console.log(i, d) 
+    })
+    
+
 };
 
 layer.events['enter:transition'] = function () {

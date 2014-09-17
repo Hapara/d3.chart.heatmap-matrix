@@ -1,16 +1,17 @@
 'use strict';
 
+
 var STROKE_WIDTH = 0.15;
 var layer = {events: {}};
 
 layer.dataBind = function (data) {
     var chart = this.chart();
     if (chart.colKey()) {
-        chart._gridKey = function (d, i) {
+        chart._cellKey = function (d, i) {
             return chart.colKey()(data.cols[i], i);
         };
     } else {
-        chart._gridKey = void 0;
+        chart._cellKey = void 0;
     }
     return this.selectAll('g.row').data(data.rows, chart.rowKey());
 };
@@ -21,7 +22,7 @@ layer.insert = function () {
     return this.append('g').classed('row', true);
 };
 
-var gridEnter = function (sel, chart) {
+var cellEnter = function (sel, chart) {
     this.attr('r', 0);
     this.attr('fill', function (d) {
         return chart.colorScale()(chart.color()(d));
@@ -35,19 +36,23 @@ var gridEnter = function (sel, chart) {
     this.attr('y', chart.yScale(0)-yDelta);
     this.attr('width', xDelta);
     this.attr('height', yDelta);
+    this.on('mouseover', chart.tip().show );
+    this.on('mouseout', chart.tip().hide );
+        
+        
     return this
 
 };
 
-var gridMerge = function (sel, chart) {
+var cellMerge = function (sel, chart) {
     return this.attr('stroke-width', STROKE_WIDTH * chart.maxRadius);
 };
 
-var gridExit = function (sel, chart) {
+var cellExit = function (sel, chart) {
     return this.remove();
 };
 
-var gridMergeTransition = function (sel, chart) {
+var cellMergeTransition = function (sel, chart) {
     this.duration(chart.duration());
     this.attr('opacity', 0.9);
     return this
@@ -68,24 +73,24 @@ layer.events['enter'] = function () {
 layer.events['merge'] = function () {
     var key = null;
     var chart = this.chart();
-    if (chart._gridKey) {
+    if (chart._cellKey) {
         key = function () {
             if (this instanceof Array) {
-                return chart._gridKey.apply(this, arguments);
+                return chart._cellKey.apply(this, arguments);
             }
             return this.__key__;
         };
     }
-    var grids = this.selectAll('rect').data(chart.rowData(), key);
-    grids.enter().append('rect').call(gridEnter, chart);
-    grids.exit().call(gridExit, chart);
-    grids.call(gridMerge, chart);
+    var cells = this.selectAll('rect').data(chart.rowData(), key);
+    cells.enter().append('rect').call(cellEnter, chart);
+    cells.exit().call(cellExit, chart);
+    cells.call(cellMerge, chart);
     if (key !== null) {
-        grids.each(function (d, i) {
-            this.__key__ = chart._gridKey(d, i);
+        cells.each(function (d, i) {
+            this.__key__ = chart._cellKey(d, i);
         });
     }
-    return grids.transition().call(gridMergeTransition, chart);
+    return cells.transition().call(cellMergeTransition, chart);
 };
 
 layer.events['update:transition'] = function () {
