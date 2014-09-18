@@ -48,7 +48,7 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.rowHeader(function (d) { return d.name; });
         this.rowData(function (d) { return d.values; });
         this.columns(function (d) { return d.columns; });
-        this.colHeader(function (d) { return d; });
+        this.colHeader(function(d) { return d; });
         this.color(function (d) { return d; });
         this.colorScale(defaultColorScale());
         this.tip(function (d) {
@@ -78,14 +78,14 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         var yDelta = (bottom - 0) / rows.length;
         this.xScale.domain(d3.range(0, cols.length));
         this.yScale.domain(d3.range(0, rows.length));
-        var delta = Math.min(xDelta, yDelta);
+        this.colMaxChar(Math.floor(xDelta / this._ruler.extentOfChar('W').width))
         var right = left + xDelta * cols.length;
         bottom = yDelta * rows.length;
         this.xScale.rangePoints([left, right], HZ_PADDING);
         this.yScale.rangePoints([0, bottom], VT_PADDING);
         var padding = this._ruler.extentOfChar('W').height;
+        this.topMargin = padding;
         this.bottomMargin = bottom + padding * 1.3;
-        delta = (this.xScale(1)) - (this.xScale(0));
         return {rows: rows, cols: cols};
     },
 
@@ -115,6 +115,7 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
     rowData: makeProp('_rowData'),
     columns: makeProp('_columns'),
     colHeader: makeProp('_colHeader'),
+    colMaxChar: makeProp('_colMaxChar'),
     colKey: makeProp('_colKey'),
     color: makeProp('_color'),
     dataObj: makeProp('_dataObj'),

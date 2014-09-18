@@ -9,6 +9,7 @@ layer.dataBind = function (data) {
 
 layer.insert = function () {
     var chart = this.chart();
+
     return this.append('text').attr('opacity', 0);
 };
 
@@ -17,12 +18,13 @@ function transformCol(sel, chart) {
     var slanted = chart.slanted();
     sel.attr('transform', function (d, i) {
         var result;
-        result = 'translate(' + (chart.xScale(i)) + ',' + bottom + ')';
+        result = 'translate(' + (chart.xScale(i)) + ',' + chart.topMargin + ')';
         if (slanted) {
             result += 'rotate(-45)';
         }
         return result;
     });
+
 }
 
 layer.events['enter'] = function () {
@@ -31,6 +33,7 @@ layer.events['enter'] = function () {
 
 layer.events['merge'] = function () {
     var chart = this.chart();
+    
     this.text(chart.colHeader())
     this.on('click', function(d, i) { 
         if (chart.sortable()) {
@@ -38,11 +41,10 @@ layer.events['merge'] = function () {
             dataObj.rows.sort(function(rowA, rowB) {
                 return d3.descending(rowA.values[i], rowB.values[i]);
             });
-
+            chart.selectedColumn(i)
             chart.draw(dataObj)
         }
-    })
-    
+    });
 
 };
 
@@ -51,6 +53,17 @@ layer.events['enter:transition'] = function () {
     this.duration(chart.duration());
     this.attr('opacity', 1);
 };
+
+layer.events['update'] = function () {
+    var chart = this.chart();
+    this.attr('opacity', 1);
+    this.attr('class', function(d,i) {
+        if (chart.selectedColumn() == i) {
+            return "selected"
+        }
+    });
+};
+
 
 
 layer.events['update:transition'] = function () {

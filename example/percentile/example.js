@@ -63,6 +63,8 @@ var chart = d3.select('#vis').append('svg')
           .selectedColumn('Time')
           .tip(tip)
           //.sortable(false)
+          //
+console.log(chart.xScale())
 
 
 
@@ -85,14 +87,18 @@ d3.csv("/percentile/time.csv", function(d) {
             });
             */
 
-            var data = require('./data');
             var objrows = ds.toJSON()
+            console.log(ds)
+            console.log(ds.columns)
 
             var quartiles = quartile_utils.computeColumnQuartiles(ds, columns)
 
             var params = {}
-            params.columns = columns
-            params.rows = quartile_utils.datasetToRows(ds, columns, 'Time')
+            params.columns = ds.columnNames().slice(1) // first column is the Time
+
+            params.rows = quartile_utils.datasetToRows(ds, ds.columnNames().slice(1), 
+                ds.columnNames()[0])
+                
             params.rows = quartile_utils.rowsToPercentiles(params, quartiles)
 
             legend.draw(colors)

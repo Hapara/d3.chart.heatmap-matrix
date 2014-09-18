@@ -16,7 +16,7 @@ function transformRow(sel, chart) {
     var width = chart.width();
     var left = chart.rowHeaderLeft;
     return sel.attr('transform', function (d, i) {
-        return 'translate(' + left + ',' + (chart.yScale(i)) + ')';
+        return 'translate(' + left + ',' + (chart.yScale(i) + chart.topMargin) + ')';
     });
 }
 

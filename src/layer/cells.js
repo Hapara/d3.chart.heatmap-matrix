@@ -62,7 +62,8 @@ var cellMergeTransition = function (sel, chart) {
 
 var transformRow = function (sel, chart) {
     return this.attr('transform', function (d, i) {
-        return 'translate(0,' + (chart.yScale(i)) + ')';
+
+        return 'translate(0,' + (chart.yScale(i) + chart.topMargin) + ')';
     });
 };
 
