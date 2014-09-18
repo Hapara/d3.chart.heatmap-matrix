@@ -1,16 +1,16 @@
-# d3.chart.bubble-matrix
+# d3.chart.heatmap-matrix
 
-A bubble-matrix chart, working on any kind of bidimensional data.
+A heatmap-matrix chart, given a matrix of range 0-1, this will populate a grid with cells filled according to their magnitude.
 
 [![Build Status](https://travis-ci.org/benbria/d3.chart.bubble-matrix.png?branch=master)](https://travis-ci.org/benbria/d3.chart.bubble-matrix)
 
 ![bubble matrix](https://raw.githubusercontent.com/benbria/d3.chart.bubble-matrix/master/doc/screenshot.png)
 
-  * useful to represent data on two dimensions, each datum being able to
-    have two specific traits represented by size and color;
+  * useful to represent data on two dimensions, each datum's magnitude is represented by its color intensity
   * based on the powerful [Data-Driven Documents](http://d3js.org/) library;
   * based on the [d3.chart](http://misoproject.com/d3-chart/) abstraction,
     making the chart fairly flexible;
+  * forked from d3.chart.bubble-matrix
   * can dynamically change data, keeping track or removed/added rows and
     columns and animating headers & bubbles.
 
@@ -18,7 +18,7 @@ A bubble-matrix chart, working on any kind of bidimensional data.
 
 With [npm]:
 
-    npm install d3.chart.bubble-matrix
+    npm install d3.chart.heatmap-matrix
 
 You can then use [browserify](https://github.com/substack/node-browserify)
 to use the library in your client-side javascript (recommended).
@@ -44,9 +44,9 @@ root:
 <html>
     <head>
         <link rel="stylesheet" type="text/css"
-              href="d3.chart.bubble-matrix.css">
+              href="d3.chart.heatmap-matrix.css">
         <link rel="stylesheet" type="text/css"
-              href="d3.chart.bubble-matrix.default.css">
+              href="d3.chart.heatmap-matrix.default.css">
     </head>
     <body>
         <div id='vis'>
@@ -58,10 +58,10 @@ root:
 ```js
 /*! example.js */
 var d3 = require('d3');
-var chart = require('d3.chart.bubble-matrix');
+var chart = require('d3.heatmap.bubble-matrix');
 
 var chart = d3.select('#vis').append('svg')
-              .chart('BubbleMatrix')
+              .chart('HeatmapMatrix')
               .width(400).height(200);
 
 chart.draw(require('./data'));
@@ -72,19 +72,15 @@ chart.draw(require('./data'));
 module.exports = {
     columns: ['the', 'cake', 'is', 'a', 'lie'],
     rows: [
-        {name: 'foo', values: [[0.13, 0.69], [0.84, 0.49], [0.31, 0.97],
-                               [0.75, 0.29], [0.64, 0.9]]},
-        {name: 'bar', values: [[0.98, 0.96], [0.13, 0.7], [0.27, 0.64],
-                               [0.17, 0.24], [0.94, 0.3]]},
-        {name: 'baz', values: [[0.94, 0.1], [0.39, 0.63], [0.07, 0.27],
-                               [0.98, 0.02], [0.25, 0.94]]},
-        {name: 'glo', values: [[0.3, 0.14], [0.39, 0.4], [0.54, 0.23],
-                               [0.35, 0.47], [0.71, 0.71]]}
+        {name: 'foo', values: [0.13, 0.84, 0.31, 0.75, .64]},
+        {name: 'bar', values: [0.98, 0.13, 0.27, 0.17, 0.94]},
+        {name: 'baz', values: [0.94, 0.39, 0.07, 0.25, 0.44]},
+        {name: 'glo', values: [0.27, 0.47, 0.87, 0.62, 0.22]},
     ]
 };
 ```
 
-This will draw a simple bubble matrix, with the default color palette.
+This will draw a simple heatmap matrix, with the default color palette.
 You can find this example in the [example/minimal](/example/minimal) folder.
 
 When nothing is configured except `width` and `height`, the library makes a lot
@@ -250,7 +246,7 @@ The value `base` in the chart is the root d3 selection, generally the SVG.
     tiny, it may not be very good-looking (but you can change the font with CSS
     or via d3.chart layer events);
   * does not support — yet — slanted headers to accomodate long texts;
-  * animations might become slow if you have a lot of bubbles displayed.
+  * animations might become slow if you have a lot of cells displayed.
 
 Please feel free to open pull requests to make any change.
 See [CONTRIBUTING](CONTRIBUTING.md).

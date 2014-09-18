@@ -1,5 +1,5 @@
 {
-  "name": "d3.chart.heatmap",
+  "name": "d3.chart.heatmap-matrix",
   "description": "A heatmap-matrix chart for the Web",
   "version": "1.0.0-alpha",
   "author": "Lee Becker",
@@ -67,7 +67,7 @@
   "browser": {
     "d3.chart": "./vendor/d3.chart.js",
     "d3.chart.base": "./vendor/d3.chart.base.js",
-    "d3.chart.heatmap": "./src/chart.js",
+    "d3.chart.heatmap-matrix": "./src/chart.js",
     "d3.tip": "./vendor/d3-tip.min.js"
   },
   "browserify-shim": {

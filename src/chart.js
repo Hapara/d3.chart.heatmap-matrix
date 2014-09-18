@@ -9,8 +9,8 @@ var d3ChartBase = require('d3.chart.base');
 
 var makeProp = util.makeProp;
 
-var CHART_NAME = 'Heatmap';
-var CHART_ID = 'd3-chart-heatmap';
+var CHART_NAME = 'HeatmapMatrix';
+var CHART_ID = 'd3-chart-heatmap-matrix';
 var HZ_PADDING = 1.0;
 var VT_PADDING = 1.0;
 var RADIUS_PADDING = 0.1;
