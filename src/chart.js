@@ -34,7 +34,6 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.base.classed(CHART_ID, true);
         this.xScale = d3.scale.ordinal();
         this.yScale = d3.scale.ordinal();
-        this.radiusScale = d3.scale.sqrt();
         this.leftMargin = 0;
         var layers = ['cells',  'row-header', 'col-header'];
         for (var i = 0; i < layers.length; ++i) {
@@ -52,7 +51,6 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         this.colHeader(function (d) { return d; });
         this.color(function (d) { return d; });
         this.colorScale(defaultColorScale());
-        this.label(function (d) { return d; });
         this.tip(function (d) {
             return {
                 show: function() { },
@@ -60,14 +58,20 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
             }
         }),
         this.slanted(false);
-        this.duration(250);
+        this.sortable(true);
+        this.duration(300);
+        this.dataObj(false);
     },
 
     transform: function (data) {
-        console.log(data)
-        this._ruler = util.textRuler(this.base);
+        // Assume data is an object with properties columns and rows
+        // repackage data
         var rows = this._rows(data);
         var cols = this._columns(data);
+        this.dataObj(data)
+
+        // scale dimensions as needed
+        this._ruler = util.textRuler(this.base);
         var left = this._updateLeftMargin(rows, this.width());
         var bottom = this._getMaxBottom(cols, this.height());
         var xDelta = (this.width() - left) / cols.length;
@@ -82,8 +86,6 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
         var padding = this._ruler.extentOfChar('W').height;
         this.bottomMargin = bottom + padding * 1.3;
         delta = (this.xScale(1)) - (this.xScale(0));
-        this.maxRadius = delta * (1 - RADIUS_PADDING) / 2;
-        this.radiusScale.range([0, this.maxRadius]);
         return {rows: rows, cols: cols};
     },
 
@@ -114,17 +116,12 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
     columns: makeProp('_columns'),
     colHeader: makeProp('_colHeader'),
     colKey: makeProp('_colKey'),
-    //size: makeProp('_size'),
     color: makeProp('_color'),
-    label: makeProp('_label'),
+    dataObj: makeProp('_dataObj'),
     tip: makeProp('_tip'),
-    /*
-    sizeDomain: makeProp('_sizeDomain', function (it) {
-        return this._radiusScale.domain(it);
-    }),
-    */
     colorScale: makeProp('_colorScale'),
     slanted: makeProp('_slanted'),
+    sortable: makeProp('_sortable'),
     duration: makeProp('_duration'),
     selectedColumn: makeProp('_selectedColumn')
 });

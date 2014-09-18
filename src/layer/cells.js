@@ -27,7 +27,7 @@ var cellEnter = function (sel, chart) {
     this.attr('fill', function (d) {
         return chart.colorScale()(chart.color()(d));
     });
-    this.attr('opacity', 0);
+    this.attr('opacity', 0.0);
     var xDelta = chart.xScale(1) - chart.xScale(0);
     var yDelta = chart.yScale(1) - chart.yScale(0);
     this.attr('x', function(d,i) {
@@ -39,13 +39,14 @@ var cellEnter = function (sel, chart) {
     this.on('mouseover', chart.tip().show );
     this.on('mouseout', chart.tip().hide );
         
-        
     return this
 
 };
 
 var cellMerge = function (sel, chart) {
-    return this.attr('stroke-width', STROKE_WIDTH * chart.maxRadius);
+    return this.attr('fill', function (d) {
+        return chart.colorScale()(chart.color()(d));
+    });
 };
 
 var cellExit = function (sel, chart) {
@@ -93,9 +94,9 @@ layer.events['merge'] = function () {
     return cells.transition().call(cellMergeTransition, chart);
 };
 
+
 layer.events['update:transition'] = function () {
-    var chart;
-    chart = this.chart();
+    var chart = this.chart();
     this.duration(chart.duration());
     return this.call(transformRow, chart);
 };

@@ -33,7 +33,14 @@ layer.events['merge'] = function () {
     var chart = this.chart();
     this.text(chart.colHeader())
     this.on('click', function(d, i) { 
-        console.log(i, d) 
+        if (chart.sortable()) {
+            var dataObj = chart.dataObj()
+            dataObj.rows.sort(function(rowA, rowB) {
+                return d3.descending(rowA.values[i], rowB.values[i]);
+            });
+
+            chart.draw(dataObj)
+        }
     })
     
 
@@ -44,6 +51,7 @@ layer.events['enter:transition'] = function () {
     this.duration(chart.duration());
     this.attr('opacity', 1);
 };
+
 
 layer.events['update:transition'] = function () {
     var chart = this.chart();
