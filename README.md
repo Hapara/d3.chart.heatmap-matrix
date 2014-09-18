@@ -2,9 +2,9 @@
 
 A heatmap-matrix chart, given a matrix of range 0-1, this will populate a grid with cells filled according to their magnitude.
 
-[![Build Status](https://travis-ci.org/benbria/d3.chart.bubble-matrix.png?branch=master)](https://travis-ci.org/benbria/d3.chart.bubble-matrix)
+#[![Build Status](https://travis-ci.org/benbria/d3.chart.bubble-matrix.png?branch=master)](https://travis-ci.org/benbria/d3.chart.bubble-matrix)
 
-![bubble matrix](https://raw.githubusercontent.com/benbria/d3.chart.bubble-matrix/master/doc/screenshot.png)
+#![bubble matrix](https://raw.githubusercontent.com/benbria/d3.chart.bubble-matrix/master/doc/screenshot.png)
 
   * useful to represent data on two dimensions, each datum's magnitude is represented by its color intensity
   * based on the powerful [Data-Driven Documents](http://d3js.org/) library;
@@ -58,7 +58,7 @@ root:
 ```js
 /*! example.js */
 var d3 = require('d3');
-var chart = require('d3.heatmap.bubble-matrix');
+var chart = require('d3.heatmap.heatmap-matrix');
 
 var chart = d3.select('#vis').append('svg')
               .chart('HeatmapMatrix')
@@ -132,7 +132,7 @@ added; or updated/moved when a key match an existing row. Optional.
 #### chart.rowData([fn])
 
   * `fn(datum)` *Function* Called for each row, must return an `Object`
-    containing bubble data for this row.
+    containing cell data for this row.
 
 Required.
 
@@ -167,16 +167,9 @@ Required. Default: `function(d) { return d; }`.
   * `fn(datum)` *Function* Called for each column, must return a
     *String* that identifies uniquely the column.
 
-When columns and bubbles are updated by subsequent calls to `draw`, columns
+When columns and cells are updated by subsequent calls to `draw`, columns
 will be removed, added; or updated/moved when a key match an existing column.
 Optional.
-
-#### chart.size([fn])
-
-  * `fn(datum)` *Function* Called for each bubble, must return a
-    *Number* driving the bubble sizes.
-
-Required. Default: `function(d) { return d[0]; }`.
 
 #### chart.color([fn])
 
@@ -188,17 +181,6 @@ feature of the bubbles; or, you can return a value correlated with the
 size.
 
 Required. Default: `function(d) { return d[1]; }`.
-
-#### chart.sizeDomain([value])
-
-  * `value` *Array* Domain of the values returned by `size`. Must contain the
-    min and max of acceptable values.
-
-The actual radius of the bubbles is the square root of the size obtained after
-normalization. This ensures that bubble *areas* represent accurately the size
-(and not the radius/width). 
-
-Required. Default: `[0, 1]`.
 
 #### chart.colorScale([fn])
 
