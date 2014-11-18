@@ -1,15 +1,15 @@
 'use strict';
 
 
-module.exports = function() {
+//module.exports = function() {
 var d3 = require('d3');
 var ld = require('lodash')
 var Miso = require('miso.dataset')
-var colorbrewer = require('../colorbrewer')
+var colorbrewer = require('colorbrewer')
 var chart = require('d3.chart.heatmap-matrix');
-var quartile_utils = require('./quartile_utils.js')
+var quartile_utils = require('src/quartile_utils.js')
 var d3tip = require('d3.tip')
-var horizLegend = require('./d3.chart.horizontal-legend.min.js')
+var horizLegend = require('d3.chart.horizontal-legend')
 
 
 
@@ -44,6 +44,7 @@ var tip = d3.tip()
     .offset([0, 0])
 
 
+    console.log("HERE")
 
 var chart = d3.select('#vis').append('svg')
           .call(tip)
@@ -68,6 +69,7 @@ d3.csv("/percentile/time.csv", function(d) {
         data: d,
     });
 
+
     ds.fetch({
         success: function() {
             var columns = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 
@@ -77,11 +79,13 @@ d3.csv("/percentile/time.csv", function(d) {
             var columns = ds.columnNames().slice(1) // All but the first column
             var nameColumn = ds.columnNames()[0]    // first column is Time
 
-            var quartiles = quartile_utils.computeColumnQuartiles(ds, columns)
+            var quartiles = quartile_utils.computeColumnQuartiles(ds, columns, {'Metric1': true})
+            console.log(quartiles)
 
             var params = {}
             params.columns = columns
             params.rows = quartile_utils.datasetToRows(ds, columns, nameColumn)
+            console.log(params)
             params.rows = quartile_utils.rowsToPercentiles(params, quartiles)
 
             legend.draw(colors)
@@ -96,5 +100,6 @@ d3.csv("/percentile/time.csv", function(d) {
 
 
 
-}
+//}
+
 

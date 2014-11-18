@@ -68,7 +68,8 @@
     "d3.chart": "./vendor/d3.chart.js",
     "d3.chart.base": "./vendor/d3.chart.base.js",
     "d3.chart.heatmap-matrix": "./src/chart.js",
-    "d3.tip": "./vendor/d3-tip.min.js"
+    "d3.tip": "./vendor/d3-tip.min.js",
+    "d3.chart.horizontal-legend": "./vendor/d3.chart.horizontal-legend.min.js"
   },
   "browserify-shim": {
     "d3.chart": {

@@ -128,3 +128,4 @@ var Chart = d3.chart('BaseChart').extend(CHART_NAME, {
 });
 
 module.exports = Chart;
+window.chart = Chart

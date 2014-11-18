@@ -21,9 +21,6 @@ quartile_utils = {
 
 
     computeColumnQuartiles: function(dataset, columns, descending_columns) {
-        console.log("dataset: " + dataset)
-        console.log("columsn: " + columns)
-        console.log("DESCENDING: " + descending_columns)
         var columnQuartiles = ld.map(columns, function(col) {
             var isDescending = (col in descending_columns);
             var order = isDescending ? d3.descending : d3.ascending;
